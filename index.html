@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A real-time simulation of attention, habits, and resource constraints through an operating-system metaphor."
+    />
+    <meta name="theme-color" content="#070812" />
+    <title>Human OS Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <main id="app" class="shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div>
+            <p class="eyebrow">Cognitive runtime / v1.0</p>
+            <h1>HUMAN<span>OS</span></h1>
+          </div>
+        </div>
+
+        <div class="runtime">
+          <div class="runtime-status">
+            <span id="status-indicator" class="status-dot"></span>
+            <span id="runtime-label">SYSTEM ONLINE</span>
+          </div>
+          <div id="tick-counter" class="tick-counter">TICK 000000</div>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="section-code">// LIVE PROCESS MONITOR</p>
+          <h2 id="hero-title">Every choice leaves a trace.</h2>
+          <p class="hero-copy">
+            Observe how attention, habit, and access compete for control. When an interrupt
+            arrives, decide which process gets the next cycle.
+          </p>
+        </div>
+        <div class="controls" aria-label="Simulation controls">
+          <button id="btn-pause" class="control-button" type="button">
+            <span class="control-icon" aria-hidden="true">Ⅱ</span>
+            <span>Pause</span>
+          </button>
+          <button id="btn-reset" class="control-button control-button--quiet" type="button">
+            <span class="control-icon" aria-hidden="true">↺</span>
+            <span>Reset</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="metrics-grid" class="metrics-grid" aria-label="Core system metrics">
+        <article class="metric-card" data-metric="energy">
+          <div class="metric-heading"><span>01</span><h3>Energy</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">80</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">STABLE</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="metric-card" data-metric="focus">
+          <div class="metric-heading"><span>02</span><h3>Focus</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">75</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">STABLE</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="metric-card metric-card--cyan" data-metric="selfAwareness">
+          <div class="metric-heading"><span>03</span><h3>Self-awareness</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">50</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">NOMINAL</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="metric-card metric-card--cyan" data-metric="nutrition">
+          <div class="metric-heading"><span>04</span><h3>Nutrition</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">70</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">STABLE</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="metric-card metric-card--magenta" data-metric="habitStrength">
+          <div class="metric-heading"><span>05</span><h3>Habit strength</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">30</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">FORMING</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="metric-card metric-card--magenta" data-metric="systemLoad">
+          <div class="metric-heading"><span>06</span><h3>System load</h3></div>
+          <div class="metric-body">
+            <div class="metric-ring">
+              <svg viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="ring-track" cx="40" cy="40" r="34"></circle>
+                <circle class="ring-value" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="value">0</span>
+            </div>
+            <div class="metric-detail">
+              <span class="metric-state">IDLE</span>
+              <div class="neon-bar"><span class="fill"></span></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel resource-panel" aria-labelledby="resource-title">
+          <div class="panel-header">
+            <div>
+              <p class="section-code">// ENVIRONMENT</p>
+              <h2 id="resource-title">Resource access</h2>
+            </div>
+            <span id="resource-status" class="panel-badge">CONSTRAINED</span>
+          </div>
+          <div class="resource-readouts">
+            <div class="resource-item">
+              <span class="resource-label">AVAILABLE BUDGET</span>
+              <strong><span class="resource-unit">¤</span><span id="budget-display">15.00</span></strong>
+              <div class="resource-track"><span id="budget-bar"></span></div>
+            </div>
+            <div class="resource-item">
+              <span class="resource-label">QUALITY MEALS</span>
+              <strong><span id="quality-meals-display">2</span><span class="resource-denominator"> / 2</span></strong>
+              <div id="meal-pips" class="meal-pips" aria-label="2 quality meals available"></div>
+            </div>
+          </div>
+          <p class="resource-note">
+            Access declines as the simulation runs. Scarcity changes which decisions remain available.
+          </p>
+        </article>
+
+        <article class="panel log-panel" aria-labelledby="log-title">
+          <div class="panel-header">
+            <div>
+              <p class="section-code">// KERNEL EVENTS</p>
+              <h2 id="log-title">System log</h2>
+            </div>
+            <span class="live-label"><span></span>LIVE</span>
+          </div>
+          <ol id="log-list" class="log-list" aria-live="polite"></ol>
+        </article>
+      </section>
+
+      <footer>
+        <span>HUMAN OS / COGNITIVE PROCESS SIMULATION</span>
+        <span>LOCAL SESSION · NO DATA TRANSMITTED</span>
+      </footer>
+    </main>
+
+    <div id="popup-overlay" class="popup-overlay" hidden>
+      <section
+        class="interrupt-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="popup-title"
+        aria-describedby="popup-description"
+      >
+        <div class="interrupt-stripe" aria-hidden="true"></div>
+        <div class="interrupt-header">
+          <span id="interrupt-code" class="interrupt-code">IRQ / 01</span>
+          <span id="interrupt-severity" class="severity">ACTION REQUIRED</span>
+        </div>
+        <div class="interrupt-symbol" aria-hidden="true">!</div>
+        <p class="section-code">// PROCESS INTERRUPT</p>
+        <h2 id="popup-title">Hunger signal</h2>
+        <p id="popup-description" class="interrupt-description"></p>
+        <div id="popup-cost-display" class="choice-comparison"></div>
+        <div class="popup-choices">
+          <button id="btn-conscious" class="choice-button choice-button--conscious" type="button">
+            <span class="choice-key">01</span>
+            <span><strong>Kernel override</strong><small>Choose deliberately</small></span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <button id="btn-autopilot" class="choice-button choice-button--autopilot" type="button">
+            <span class="choice-key">02</span>
+            <span><strong>Autopilot</strong><small>Follow the default</small></span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <p id="constraint-message" class="constraint-message" hidden></p>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

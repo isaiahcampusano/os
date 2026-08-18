@@ -74,6 +74,7 @@ export function createRenderer(documentRef = document) {
   let lastPopupId = null;
 
   function renderMetrics(state) {
+    const previewCosts = state.activePopup?.consciousCost;
     for (const card of metricCards) {
       const key = card.dataset.metric;
       const value = state[key];
@@ -89,8 +90,33 @@ export function createRenderer(documentRef = document) {
       ring.style.strokeDasharray = `${circumference}`;
       ring.style.strokeDashoffset = `${circumference * (1 - value / 100)}`;
       card.classList.toggle('is-critical', isCritical);
+      const previewValue = previewCosts?.[key];
+      const adjustedPreview =
+        (key === 'energy' || key === 'focus') && previewValue < 0
+          ? previewValue * state.consciousCostMultiplier
+          : previewValue;
+      card.classList.toggle('has-cost-preview', adjustedPreview < 0);
+      card.dataset.preview = adjustedPreview < 0 ? `${formatValue(adjustedPreview)}` : '';
       card.setAttribute('aria-label', `${METRIC_NAMES[key]}: ${roundedValue} out of 100`);
     }
+  }
+
+  function renderSystemVisual(state) {
+    const visual = documentRef.querySelector('#system-visual');
+    if (!visual) return;
+    visual.style.setProperty('--system-load', `${state.systemLoad}`);
+    visual.style.setProperty('--energy-level', `${state.energy / 100}`);
+    visual.style.setProperty('--focus-level', `${state.focus / 100}`);
+    visual.style.setProperty('--habit-level', `${state.habitStrength / 100}`);
+    visual.classList.toggle('is-strained', state.systemLoad >= 50);
+    visual.classList.toggle('is-overloaded', state.systemLoad >= 75);
+    visual.classList.toggle('is-choosing', Boolean(state.activePopup));
+    documentRef.querySelector('#core-load').textContent = `${Math.round(state.systemLoad)}%`;
+    documentRef.querySelector('#core-energy').textContent = formatValue(state.energy);
+    documentRef.querySelector('#core-focus').textContent = formatValue(state.focus);
+    documentRef.querySelector('#core-habit').textContent = formatValue(state.habitStrength);
+    documentRef.querySelector('#core-status').textContent =
+      state.systemLoad >= 75 ? 'OVERLOAD RISK' : state.systemLoad >= 50 ? 'FLOW STRAINED' : 'FLOW NOMINAL';
   }
 
   function renderResources(state) {
@@ -165,6 +191,7 @@ export function createRenderer(documentRef = document) {
     documentRef.querySelector('#interrupt-severity').textContent = popup.forced
       ? 'CONSTRAINT LOCK'
       : 'ACTION REQUIRED';
+    overlay.style.setProperty('--irq-rate', `${Math.max(0.34, 1.25 - state.systemLoad / 110)}s`);
 
     const consciousAllowed = canChooseConscious(state, popup);
     consciousButton.disabled = !consciousAllowed;
@@ -194,6 +221,7 @@ export function createRenderer(documentRef = document) {
 
   return function renderAll(state) {
     renderMetrics(state);
+    renderSystemVisual(state);
     renderResources(state);
     renderLog(state);
     renderRuntime(state);

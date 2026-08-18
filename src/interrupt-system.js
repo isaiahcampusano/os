@@ -213,10 +213,21 @@ export function resolveActiveChoice(state, choice, { now = Date.now } = {}) {
     consciousCostMultiplier: deriveConsciousCostMultiplier(nextState.habitStrength),
   };
 
+  const resultSummary = Object.entries(costs)
+    .filter(([key, value]) => ['energy', 'focus', 'selfAwareness', 'habitStrength'].includes(key) && value !== 0)
+    .slice(0, 2)
+    .map(([key, value]) => `${value > 0 ? '+' : ''}${Number(value.toFixed(1))} ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}`)
+    .join(', ');
+  const reflection = choice === 'conscious'
+    ? `Conscious override sustained. ${resultSummary}. The decision leaves a measurable trace.`
+    : interrupt.forced
+      ? `Autopilot forced by environmental constraint. ${resultSummary}. No alternate path remained.`
+      : `Autopilot engaged. ${resultSummary}. The familiar pathway strengthens.`;
+
   return appendEvent(nextState, {
     id: `choice-${interrupt.id}-${choice}`,
     time: now(),
-    message: `${choice.toUpperCase()} path executed for ${interrupt.type.replaceAll('_', ' ')}.`,
+    message: `${reflection} [${interrupt.type.replaceAll('_', ' ')}]`,
     type: choice === 'conscious' ? 'info' : interrupt.forced ? 'critical' : 'warning',
   });
 }

@@ -164,6 +164,31 @@
         </article>
       </section>
 
+      <section id="system-visual" class="system-visual panel" aria-labelledby="system-visual-title">
+        <div class="system-visual__copy">
+          <p class="section-code">// COGNITIVE TOPOLOGY</p>
+          <h2 id="system-visual-title">System core</h2>
+          <p>Live pathways show which processes are carrying the greatest strain.</p>
+          <div class="core-readout">
+            <span>LOAD</span>
+            <strong id="core-load">0%</strong>
+            <span id="core-status">FLOW NOMINAL</span>
+          </div>
+        </div>
+        <div class="system-map" aria-label="Reactive visualization of the cognitive system">
+          <div class="system-grid" aria-hidden="true"></div>
+          <div class="circuit circuit--energy" aria-hidden="true"></div>
+          <div class="circuit circuit--focus" aria-hidden="true"></div>
+          <div class="circuit circuit--habit" aria-hidden="true"></div>
+          <div class="core-node" aria-hidden="true"><span></span><i></i><b>OS</b></div>
+          <div class="module module--energy"><i></i><span>ENERGY</span><strong id="core-energy">80</strong></div>
+          <div class="module module--focus"><i></i><span>FOCUS</span><strong id="core-focus">75</strong></div>
+          <div class="module module--habit"><i></i><span>HABIT LOOP</span><strong id="core-habit">30</strong></div>
+          <span class="flow-pulse flow-pulse--one" aria-hidden="true"></span>
+          <span class="flow-pulse flow-pulse--two" aria-hidden="true"></span>
+        </div>
+      </section>
+
       <section class="lower-grid">
         <article class="panel resource-panel" aria-labelledby="resource-title">
           <div class="panel-header">
@@ -238,6 +263,7 @@
             <span aria-hidden="true">→</span>
           </button>
         </div>
+        <p class="deliberation-note"><span></span> Override requires sustained intent</p>
         <p id="constraint-message" class="constraint-message" hidden></p>
       </section>
     </div>
